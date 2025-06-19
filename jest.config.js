@@ -11,4 +11,9 @@ module.exports = {
     '^.+\\.(js|jsx)$': 'ts-jest',
   },
   transformIgnorePatterns: ['/node_modules/(?!(react|react-dom|@testing-library|@babel|next)/)'],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.jest.json',
+    },
+  },
 };

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Spinner from '../../../components/ui/Spinner';
+import Spinner from '@/components/ui/Spinner';
 
 describe('Spinner', () => {
   it('renders with default props', () => {

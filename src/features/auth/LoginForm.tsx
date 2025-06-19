@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from './AuthProvider';
-import { BRAND } from '../../constants/branding';
-import Spinner from '../../components/ui/Spinner';
 import { useRouter } from 'next/navigation';
-import TextInput from '../../components/ui/TextInput';
+import { useAuth } from './AuthProvider';
+import { BRAND } from '@/constants/branding';
+import Spinner from '@/components/ui/Spinner';
+import TextInput from '@/components/ui/TextInput';
 import { useForm } from './useForm';
+import { isValidEmail, isValidPassword } from '@/utils/validation';
+import { debugLog, errorLog } from '@/utils/log';
 
 const LoginForm: React.FC = () => {
   const { login } = useAuth();
@@ -30,13 +32,21 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (values: { email: string; password: string }) => {
     setError('');
+    if (!isValidEmail(values.email)) {
+      setError('Invalid email address');
+      return;
+    }
+    if (!isValidPassword(values.password)) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
     try {
-      console.debug('[LoginForm] Attempting login', { email: values.email });
+      debugLog('[LoginForm] Attempting login', { email: values.email });
       await login(values.email, values.password);
-      console.debug('[LoginForm] Login successful', { email: values.email });
+      debugLog('[LoginForm] Login successful', { email: values.email });
       router.replace('/');
     } catch (err) {
-      console.error('[LoginForm] Login failed', err);
+      errorLog('[LoginForm] Login failed', err);
       setError('Login failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
   };

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import SignupForm from '../../../features/auth/SignupForm';
+import SignupForm from '@/features/auth/SignupForm';
 import React from 'react';
 
 jest.mock('../../../features/auth/AuthProvider', () => ({

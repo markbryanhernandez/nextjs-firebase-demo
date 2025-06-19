@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAuth } from './AuthProvider';
-import { BRAND } from '../../constants/branding';
-import Spinner from '../../components/ui/Spinner';
-import TextInput from '../../components/ui/TextInput';
 import { useForm } from './useForm';
+import { BRAND } from '@/constants/branding';
+import Spinner from '@/components/ui/Spinner';
+import TextInput from '@/components/ui/TextInput';
+import { isValidEmail, isValidPassword } from '@/utils/validation';
+import { debugLog, errorLog } from '@/utils/log';
 
 const SignupForm: React.FC = () => {
   const { signup } = useAuth();
@@ -33,11 +35,21 @@ const SignupForm: React.FC = () => {
   const onSubmit = async (values: { email: string; password: string; confirmPassword: string }) => {
     setError('');
     setSuccess('');
+    if (!isValidEmail(values.email)) {
+      setError('Invalid email address');
+      return;
+    }
+    if (!isValidPassword(values.password)) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
     try {
+      debugLog('[SignupForm] Attempting signup', { email: values.email });
       await signup(values.email, values.password);
       setSuccess('Account created! You can now log in.');
       setValues({ email: '', password: '', confirmPassword: '' });
     } catch (err) {
+      errorLog('[SignupForm] Signup failed', err);
       setError('Signup failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
   };

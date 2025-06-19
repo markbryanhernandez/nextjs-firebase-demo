@@ -1,14 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import LogoutButton from '../../../features/auth/LogoutButton';
+import LogoutButton from '@/features/auth/LogoutButton';
 import React from 'react';
 
-jest.mock('../../../features/auth/AuthProvider', () => ({
-  useAuth: () => ({
-    logout: jest.fn(() => Promise.resolve()),
-    loading: false,
-  }),
+const mockLogout = jest.fn(() => Promise.resolve());
+const mockUseAuth = jest.fn(() => ({
+  logout: mockLogout,
+  loading: false,
 }));
-jest.mock('../../../constants/branding', () => ({
+
+jest.mock('@/features/auth/AuthProvider', () => ({
+  useAuth: () => mockUseAuth(),
+}));
+
+jest.mock('@/constants/branding', () => ({
   BRAND: {
     buttonFrom: 'from-indigo-500',
     buttonTo: 'to-blue-500',
@@ -19,24 +23,28 @@ jest.mock('../../../constants/branding', () => ({
 }));
 
 describe('LogoutButton', () => {
+  beforeEach(() => {
+    mockLogout.mockClear();
+    mockUseAuth.mockImplementation(() => ({
+      logout: mockLogout,
+      loading: false,
+    }));
+  });
+
   it('renders and calls logout on click', () => {
     render(<LogoutButton />);
     const button = screen.getByRole('button', { name: /logout/i });
     fireEvent.click(button);
+    expect(mockLogout).toHaveBeenCalled();
     expect(button).toBeInTheDocument();
   });
 
   it('shows loading state when loading', () => {
-    jest.resetModules();
-    jest.doMock('../../../features/auth/AuthProvider', () => ({
-      useAuth: () => ({
-        logout: jest.fn(() => Promise.resolve()),
-        loading: true,
-      }),
+    mockUseAuth.mockImplementation(() => ({
+      logout: mockLogout,
+      loading: true,
     }));
-    import('../../../features/auth/LogoutButton').then(({ default: LogoutButtonLoading }) => {
-      render(<LogoutButtonLoading />);
-      expect(screen.getByRole('button', { name: /logging out/i })).toBeInTheDocument();
-    });
+    render(<LogoutButton />);
+    expect(screen.getByRole('button', { name: /logging out/i })).toBeInTheDocument();
   });
 });

@@ -2,9 +2,9 @@
 
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../features/auth/AuthProvider';
-import DashboardLayout from '@/components/layout/DashboardLayout';
 import dynamic from 'next/dynamic';
+import { useAuth } from '@/features/auth/AuthProvider';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 const LoadingPage = dynamic(() => import('./loading'), { ssr: false });
 

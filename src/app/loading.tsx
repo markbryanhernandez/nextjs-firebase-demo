@@ -1,7 +1,7 @@
 import React from 'react';
+import Image from 'next/image';
 import Spinner from '@/components/ui/Spinner';
 import { BRAND } from '@/constants/branding';
-import Image from 'next/image';
 
 const LoadingPage: React.FC = () => {
   return (

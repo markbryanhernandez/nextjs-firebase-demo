@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { BRAND } from '../../constants/branding';
+
+import { BRAND } from '@/constants/branding';
 
 const LoginForm = dynamic(() => import('../../features/auth/LoginForm'), { ssr: false });
 const SignupForm = dynamic(() => import('../../features/auth/SignupForm'), { ssr: false });

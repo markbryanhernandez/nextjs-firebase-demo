@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useForm } from '../../../features/auth/useForm';
+import { useForm } from '@/features/auth/useForm';
 
 describe('useForm', () => {
   it('initializes with initial values', () => {

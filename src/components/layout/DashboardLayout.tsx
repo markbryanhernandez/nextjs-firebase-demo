@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import LogoutButton from '@/features/auth/LogoutButton';
 import { BRAND } from '@/constants/branding';
 import ErrorBoundary from './ErrorBoundary';

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import LogoutButton from '../features/auth/LogoutButton';
 import UserInfo from '../features/auth/UserInfo';
 import { useAuth } from '../features/auth/AuthProvider';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 
 export default function Home() {
   const { user } = useAuth();
@@ -20,11 +21,23 @@ export default function Home() {
   if (!user) return <div className="text-center mt-20 text-gray-500">Loading user...</div>;
 
   return (
-    <main className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <section className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <UserInfo />
-        <LogoutButton />
-      </section>
-    </main>
+    <DashboardLayout>
+      <main className="w-full flex flex-col items-center justify-center" role="main">
+        <section
+          className="text-center max-w-xl"
+          aria-labelledby="dashboard-welcome-title"
+        >
+          <h1
+            id="dashboard-welcome-title"
+            className="text-4xl font-bold mb-4"
+          >
+            Welcome to your Dashboard
+          </h1>
+          <p className="text-lg text-gray-600">
+            This is your modern dashboard. Start building something amazing!
+          </p>
+        </section>
+      </main>
+    </DashboardLayout>
   );
 }

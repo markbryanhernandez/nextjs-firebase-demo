@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from './AuthProvider';
+import { BRAND } from '@/constants/branding';
 
 const LogoutButton: React.FC = React.memo(() => {
   const { logout, loading } = useAuth();
@@ -11,12 +12,15 @@ const LogoutButton: React.FC = React.memo(() => {
   return (
     <button
       onClick={handleLogout}
-      className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-red-600 hover:to-pink-600 transition disabled:opacity-50"
+      className={`bg-gradient-to-r ${BRAND.buttonFrom} ${BRAND.buttonTo} text-white px-6 py-2 rounded-lg font-semibold shadow-md transition disabled:opacity-50 ${BRAND.buttonHoverFrom} ${BRAND.buttonHoverTo} focus:outline-none ${BRAND.focusRing}`}
       disabled={loading}
+      aria-label={loading ? 'Logging out' : 'Logout'}
+      type="button"
     >
       {loading ? 'Logging out...' : 'Logout'}
     </button>
   );
 });
+LogoutButton.displayName = "LogoutButton";
 
 export default LogoutButton;

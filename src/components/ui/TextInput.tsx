@@ -40,7 +40,9 @@ const TextInput: React.FC<TextInputProps> = ({
       autoComplete={autoComplete}
     />
     {error && (
-      <div id={`${name}-error`} className="text-red-500 text-xs mt-1">{error}</div>
+      <div id={`${name}-error`} className="text-red-500 text-xs mt-1">
+        {error}
+      </div>
     )}
   </div>
 );

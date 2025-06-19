@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Spinner: React.FC<{ size?: number }> = ({ size = 24 }) => (
+const Spinner: React.FC<{ size?: number; colorClass?: string }> = ({
+  size = 24,
+  colorClass = 'text-indigo-500',
+}) => (
   <svg
-    className="animate-spin text-indigo-500"
+    className={`animate-spin ${colorClass}`}
     width={size}
     height={size}
     viewBox="0 0 24 24"

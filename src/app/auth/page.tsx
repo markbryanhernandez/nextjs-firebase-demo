@@ -23,6 +23,7 @@ const AuthPage: React.FC = () => {
       <button
         className={`text-${BRAND.primaryColor}-600 underline text-sm mt-2`}
         onClick={() => setShowSignup((s) => !s)}
+        aria-label={showSignup ? 'Switch to login form' : 'Switch to signup form'}
       >
         {showSignup ? 'Already have an account? Log in' : "Don't have an account? Sign up"}
       </button>

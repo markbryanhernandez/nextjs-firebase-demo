@@ -21,6 +21,6 @@ const LogoutButton: React.FC = React.memo(() => {
     </button>
   );
 });
-LogoutButton.displayName = "LogoutButton";
+LogoutButton.displayName = 'LogoutButton';
 
 export default LogoutButton;

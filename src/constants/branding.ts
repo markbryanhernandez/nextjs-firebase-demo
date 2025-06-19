@@ -1,7 +1,7 @@
 export const BRAND = {
   appName: 'DemoApp',
-  logoSrc: '/next.svg', // Placeholder logo
-  primaryColor: 'indigo', // Tailwind color name
+  logoSrc: '/next.svg',
+  primaryColor: 'indigo',
   gradientFrom: 'from-indigo-100',
   gradientTo: 'to-indigo-50',
   buttonFrom: 'from-indigo-500',

@@ -1,11 +1,5 @@
-import withBundleAnalyzer from '@next/bundle-analyzer';
-
-const withAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
-
 const nextConfig: import('next').NextConfig = {
-  /* config options here */
+  turbopack: {}, // Enables Turbopack with default options
 };
 
-export default withAnalyzer(nextConfig);
+export default nextConfig;

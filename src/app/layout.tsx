@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://your-demoapp-domain.com'),
   title: 'DemoApp – Your Modern Dashboard',
   description: 'A modern Next.js dashboard app with Firebase authentication.',
   openGraph: {
@@ -31,13 +32,6 @@ export const metadata: Metadata = {
     ],
     locale: 'en_US',
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'DemoApp – Your Modern Dashboard',
-    description: 'A modern Next.js dashboard app with Firebase authentication.',
-    images: ['/next.svg'],
-    creator: '@yourtwitter',
   },
   icons: {
     icon: '/favicon.ico',

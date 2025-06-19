@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import DashboardLayout from '../../../components/layout/DashboardLayout';
 import React from 'react';
 
-// Use only inline mock for LogoutButton
 jest.mock('../../../features/auth/LogoutButton', () => {
   const MockLogoutButton = function MockLogoutButton() {
     return <button>Logout</button>;
@@ -11,10 +10,8 @@ jest.mock('../../../features/auth/LogoutButton', () => {
   return MockLogoutButton;
 });
 
-// Mock next/image to render a regular img with alt prop and display name
 jest.mock('next/image', () => {
   const MockNextImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img alt="mock" {...props} />
   );
   (MockNextImage as React.FC).displayName = 'MockNextImage';
@@ -36,7 +33,6 @@ jest.mock('../../../constants/branding', () => ({
   },
 }));
 
-// Mock ErrorBoundary to just render children for this test, with display name and type
 jest.mock('../../../components/layout/ErrorBoundary', () => {
   const MockErrorBoundary = function MockErrorBoundary({
     children,

@@ -23,16 +23,12 @@ describe('LoginForm', () => {
   });
 
   it('shows validation errors on submit', async () => {
-    // Render the form
     const { container } = render(<LoginForm />);
 
-    // Get the form element and submit it
     const form = container.querySelector('form');
     fireEvent.submit(form!);
 
-    // Wait for the validation errors to appear
     await waitFor(() => {
-      // Use container.querySelector to find error message divs
       const emailError = container.querySelector('#email-error');
       const passwordError = container.querySelector('#password-error');
 

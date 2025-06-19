@@ -34,7 +34,6 @@ describe('LogoutButton', () => {
         loading: true,
       }),
     }));
-    // Use dynamic import instead of require for ES module compatibility
     import('../../../features/auth/LogoutButton').then(({ default: LogoutButtonLoading }) => {
       render(<LogoutButtonLoading />);
       expect(screen.getByRole('button', { name: /logging out/i })).toBeInTheDocument();

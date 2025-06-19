@@ -13,11 +13,9 @@ describe('ErrorBoundary', () => {
   });
 
   it('catches error and displays fallback UI', () => {
-    // Component that throws
     const ProblemChild = () => {
       throw new Error('Test error');
     };
-    // Suppress error output in test
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <ErrorBoundary>

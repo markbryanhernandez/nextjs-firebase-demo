@@ -29,7 +29,7 @@ export function useForm<T extends Record<string, unknown>>({
 
         if (Object.keys(validationErrors).length > 0) {
           setIsSubmitting(false);
-          return; // Stop form submission if there are validation errors
+          return;
         }
       }
 

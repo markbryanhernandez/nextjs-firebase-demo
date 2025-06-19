@@ -12,6 +12,7 @@ jest.mock('../../../features/auth/LogoutButton', () => {
 
 jest.mock('next/image', () => {
   const MockNextImage = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // eslint-disable-next-line @next/next/no-img-element
     <img alt="mock" {...props} />
   );
   (MockNextImage as React.FC).displayName = 'MockNextImage';

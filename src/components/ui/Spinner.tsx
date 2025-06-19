@@ -5,6 +5,8 @@ const Spinner: React.FC<{ size?: number; colorClass?: string }> = ({
   colorClass = 'text-indigo-500',
 }) => (
   <svg
+    role="img"
+    aria-label="Loading"
     className={`animate-spin ${colorClass}`}
     width={size}
     height={size}

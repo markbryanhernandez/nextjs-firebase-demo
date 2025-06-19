@@ -18,19 +18,27 @@ export function useForm<T extends Record<string, unknown>>({
     setValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (onSubmit: (values: T) => Promise<void> | void) => (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    if (validate) {
-      const validationErrors = validate(values);
-      setErrors(validationErrors);
-      if (Object.keys(validationErrors).length > 0) {
-        setIsSubmitting(false);
-        return;
+  const handleSubmit =
+    (onSubmit: (values: T) => Promise<void> | void) => async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+
+      if (validate) {
+        const validationErrors = validate(values);
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length > 0) {
+          setIsSubmitting(false);
+          return; // Stop form submission if there are validation errors
+        }
       }
-    }
-    Promise.resolve(onSubmit(values)).finally(() => setIsSubmitting(false));
-  };
+
+      try {
+        await Promise.resolve(onSubmit(values));
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
 
   return {
     values,

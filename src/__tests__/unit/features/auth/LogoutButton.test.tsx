@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LogoutButton from '@/features/auth/LogoutButton';
 import React from 'react';
 
@@ -22,6 +22,10 @@ jest.mock('@/constants/branding', () => ({
   },
 }));
 
+jest.mock('@/utils/log', () => ({
+  errorLog: jest.fn(),
+}));
+
 describe('LogoutButton', () => {
   beforeEach(() => {
     mockLogout.mockClear();
@@ -31,12 +35,18 @@ describe('LogoutButton', () => {
     }));
   });
 
-  it('renders and calls logout on click', () => {
+  it('renders and calls logout on click', async () => {
     render(<LogoutButton />);
     const button = screen.getByRole('button', { name: /logout/i });
-    fireEvent.click(button);
-    expect(mockLogout).toHaveBeenCalled();
+
     expect(button).toBeInTheDocument();
+    expect(button).not.toBeDisabled();
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(mockLogout).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('shows loading state when loading', () => {
@@ -44,7 +54,49 @@ describe('LogoutButton', () => {
       logout: mockLogout,
       loading: true,
     }));
+
     render(<LogoutButton />);
-    expect(screen.getByRole('button', { name: /logging out/i })).toBeInTheDocument();
+
+    const button = screen.getByRole('button', { name: /logging out/i });
+    expect(button).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
+
+  it('shows error message when logout fails', async () => {
+    const logoutError = new Error('Logout failed');
+    mockLogout.mockRejectedValueOnce(logoutError);
+
+    render(<LogoutButton />);
+
+    const button = screen.getByRole('button', { name: /logout/i });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText(/logout failed/i)).toBeInTheDocument();
+    });
+  });
+
+  it('clears previous error when logout is attempted again', async () => {
+    // First cause an error
+    const logoutError = new Error('Logout failed');
+    mockLogout.mockRejectedValueOnce(logoutError);
+
+    render(<LogoutButton />);
+
+    const button = screen.getByRole('button', { name: /logout/i });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByText(/logout failed/i)).toBeInTheDocument();
+    });
+
+    // Then succeed on second attempt
+    mockLogout.mockResolvedValueOnce(undefined);
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.queryByText(/logout failed/i)).not.toBeInTheDocument();
+    });
   });
 });

@@ -5,7 +5,7 @@ module.exports = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/', '/src/__tests__/test-utils/'],
   transform: {
     '^.+\\.(ts|tsx)$': [
       'ts-jest',

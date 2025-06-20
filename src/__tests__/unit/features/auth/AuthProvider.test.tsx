@@ -2,22 +2,11 @@ import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { AuthProvider, useAuth } from '@/features/auth/AuthProvider';
 
-jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({})),
-  getApps: jest.fn(() => []),
-  getApp: jest.fn(() => ({})),
-  initializeApp: jest.fn(() => ({})),
-  onAuthStateChanged: jest.fn((auth, cb) => {
-    cb(null);
-    return jest.fn();
-  }),
-  signInWithEmailAndPassword: jest.fn(() => Promise.resolve()),
-  createUserWithEmailAndPassword: jest.fn(() => Promise.resolve()),
-  signOut: jest.fn(() => Promise.resolve()),
-  User: class {},
-}));
-
 describe('AuthProvider', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('provides user as null initially', async () => {
     let user: ReturnType<typeof useAuth>['user'] | undefined;
     function TestComponent() {
@@ -48,5 +37,15 @@ describe('AuthProvider', () => {
     await context.signup('test@example.com', 'password');
     await context.logout();
     expect(context.user).toBeNull();
+  });
+
+  it('throws if useAuth is used outside AuthProvider', () => {
+    function TestComponent() {
+      useAuth();
+      return <div />;
+    }
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    expect(() => render(<TestComponent />)).toThrow('useAuth must be used within AuthProvider');
+    spy.mockRestore();
   });
 });

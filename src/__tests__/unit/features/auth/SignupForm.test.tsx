@@ -58,7 +58,6 @@ describe('SignupForm', () => {
   it('shows error when passwords do not match', async () => {
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with mismatched passwords
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
     });
@@ -84,7 +83,6 @@ describe('SignupForm', () => {
   it('shows error for invalid email format', async () => {
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with invalid email
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'invalid-email' },
     });
@@ -108,7 +106,6 @@ describe('SignupForm', () => {
   it('shows error for too short password', async () => {
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with too short password
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
     });
@@ -132,7 +129,6 @@ describe('SignupForm', () => {
   it('calls signup function with valid form data', async () => {
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with valid data
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
     });
@@ -154,7 +150,6 @@ describe('SignupForm', () => {
   it('shows success message after successful signup', async () => {
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with valid data
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
     });
@@ -172,7 +167,6 @@ describe('SignupForm', () => {
       expect(screen.getByText(/account created! you can now log in/i)).toBeInTheDocument();
     });
 
-    // Form should be reset
     expect(screen.getByLabelText('Email')).toHaveValue('');
     expect(screen.getByLabelText('Password')).toHaveValue('');
     expect(screen.getByLabelText('Confirm Password')).toHaveValue('');
@@ -183,7 +177,6 @@ describe('SignupForm', () => {
 
     const { container } = render(<SignupForm />);
 
-    // Fill out the form with valid data
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'test@example.com' },
     });

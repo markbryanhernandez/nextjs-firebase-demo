@@ -62,7 +62,6 @@ describe('LoginForm', () => {
   it('shows error for invalid email format', async () => {
     const { container } = render(<LoginForm />);
 
-    // Fill out the form with invalid email
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'invalid-email' },
     });
@@ -83,7 +82,6 @@ describe('LoginForm', () => {
   it('shows error for too short password', async () => {
     const { container } = render(<LoginForm />);
 
-    // Fill out the form with too short password
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' },
     });
@@ -104,7 +102,6 @@ describe('LoginForm', () => {
   it('calls login function with valid form data and redirects on success', async () => {
     const { container } = render(<LoginForm />);
 
-    // Fill out the form with valid data
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' },
     });
@@ -126,7 +123,6 @@ describe('LoginForm', () => {
 
     const { container } = render(<LoginForm />);
 
-    // Fill out the form with valid data
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' },
     });

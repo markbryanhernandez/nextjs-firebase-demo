@@ -49,7 +49,6 @@ describe('AuthProvider', () => {
       return <div>Test</div>;
     }
 
-    // Setup mock to return a user
     const mockUser = { uid: '123', email: 'test@example.com' };
     mockOnAuthStateChanged.mockImplementationOnce((auth, callback) => {
       callback(mockUser);

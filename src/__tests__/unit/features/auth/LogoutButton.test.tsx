@@ -77,7 +77,6 @@ describe('LogoutButton', () => {
   });
 
   it('clears previous error when logout is attempted again', async () => {
-    // First cause an error
     const logoutError = new Error('Logout failed');
     mockLogout.mockRejectedValueOnce(logoutError);
 
@@ -90,7 +89,6 @@ describe('LogoutButton', () => {
       expect(screen.getByText(/logout failed/i)).toBeInTheDocument();
     });
 
-    // Then succeed on second attempt
     mockLogout.mockResolvedValueOnce(undefined);
 
     fireEvent.click(button);

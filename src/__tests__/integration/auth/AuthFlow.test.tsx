@@ -37,15 +37,14 @@ describe('AuthPage', () => {
     jest.clearAllMocks();
   });
 
-  it('renders the login form by default', () => {
+  it('renders the login form by default', async () => {
     render(
       <AuthProvider>
         <AuthPage />
       </AuthProvider>
     );
 
-    // Initial page should show login form
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /login/i })).toBeInTheDocument();
     expect(screen.getByText(/don't have an account\? sign up/i)).toBeInTheDocument();
   });
 
@@ -94,7 +93,8 @@ describe('AuthPage', () => {
       fireEvent.change(screen.getByLabelText(/email/i), {
         target: { value: 'newuser@example.com' },
       });
-      fireEvent.change(screen.getByLabelText(/password/i), {
+      // Use getByLabelText for 'Password' and 'Confirm Password' specifically
+      fireEvent.change(screen.getByLabelText(/^Password$/i), {
         target: { value: 'Password123' },
       });
       fireEvent.change(screen.getByLabelText(/confirm password/i), {

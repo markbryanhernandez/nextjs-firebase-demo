@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import React from 'react';
 
-jest.mock('../../../features/auth/LogoutButton', () => {
+jest.mock('../../../../features/auth/LogoutButton', () => {
   const MockLogoutButton = function MockLogoutButton() {
     return <button>Logout</button>;
   };
@@ -19,7 +19,7 @@ jest.mock('next/image', () => {
   return MockNextImage;
 });
 
-jest.mock('../../../constants/branding', () => ({
+jest.mock('../../../../constants/branding', () => ({
   BRAND: {
     logoSrc: '/logo.svg',
     appName: 'DemoApp',
@@ -34,7 +34,7 @@ jest.mock('../../../constants/branding', () => ({
   },
 }));
 
-jest.mock('../../../components/layout/ErrorBoundary', () => {
+jest.mock('../../../../components/layout/ErrorBoundary', () => {
   const MockErrorBoundary = function MockErrorBoundary({
     children,
   }: {

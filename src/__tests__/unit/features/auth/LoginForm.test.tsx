@@ -2,13 +2,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import LoginForm from '@/features/auth/LoginForm';
 import React from 'react';
 
-jest.mock('../../../features/auth/AuthProvider', () => ({
+jest.mock('../../../../features/auth/AuthProvider', () => ({
   useAuth: () => ({
     login: jest.fn(() => Promise.resolve()),
   }),
 }));
 jest.mock('next/navigation', () => ({ useRouter: () => ({ replace: jest.fn() }) }));
-jest.mock('../../../components/ui/Spinner', () => {
+jest.mock('../../../../components/ui/Spinner', () => {
   const MockSpinner = () => <div>Loading...</div>;
   MockSpinner.displayName = 'MockSpinner';
   return MockSpinner;

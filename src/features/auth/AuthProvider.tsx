@@ -11,7 +11,7 @@ import {
 import { auth } from '@/lib/firebase';
 import { debugLog, errorLog } from '@/utils/log';
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;

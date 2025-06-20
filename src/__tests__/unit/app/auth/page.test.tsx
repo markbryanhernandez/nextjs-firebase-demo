@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -16,12 +16,23 @@ import AuthPage from '@/app/auth/page';
 import { AuthProvider } from '@/features/auth/AuthProvider';
 
 describe('AuthPage', () => {
-  it('renders without crashing', () => {
-    const { container } = render(
+  it('renders login form by default', () => {
+    const { getByText } = render(
       <AuthProvider>
         <AuthPage />
       </AuthProvider>
     );
-    expect(container).toBeInTheDocument();
+    expect(getByText("Don't have an account? Sign up")).toBeInTheDocument();
+  });
+
+  it('toggles to signup form when button is clicked', () => {
+    const { getByText } = render(
+      <AuthProvider>
+        <AuthPage />
+      </AuthProvider>
+    );
+    const toggleButton = getByText("Don't have an account? Sign up");
+    fireEvent.click(toggleButton);
+    expect(getByText('Already have an account? Log in')).toBeInTheDocument();
   });
 });

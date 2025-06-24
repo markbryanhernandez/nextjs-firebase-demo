@@ -1,18 +1,11 @@
 import { render, waitFor, act } from '@testing-library/react';
 import React from 'react';
-import {
-  mockOnAuthStateChanged,
-  mockSignInWithEmailAndPassword,
-  mockCreateUserWithEmailAndPassword,
-  mockSignOut,
-} from '../../../test-utils/mockFirebaseAuth';
+import { mockOnAuthStateChanged, mockSignOut } from '../../../test-utils/mockFirebaseAuth';
 
 // Setup the Firebase auth mocks
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({})),
   onAuthStateChanged: mockOnAuthStateChanged,
-  signInWithEmailAndPassword: mockSignInWithEmailAndPassword,
-  createUserWithEmailAndPassword: mockCreateUserWithEmailAndPassword,
   signOut: mockSignOut,
   User: class {},
 }));
@@ -23,7 +16,7 @@ jest.mock('@/lib/firebase', () => ({
   auth: {},
 }));
 
-describe('AuthProvider', () => {
+describe('AuthProvider (Google Sign-In only)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -67,60 +60,6 @@ describe('AuthProvider', () => {
     });
   });
 
-  it('calls Firebase signInWithEmailAndPassword during login', async () => {
-    const testEmail = 'test@example.com';
-    const testPassword = 'password123';
-
-    let auth: ReturnType<typeof useAuth>;
-    function TestComponent() {
-      auth = useAuth();
-      return <div>Test</div>;
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await act(async () => {
-      await auth.login(testEmail, testPassword);
-    });
-
-    expect(mockSignInWithEmailAndPassword).toHaveBeenCalledWith(
-      expect.anything(),
-      testEmail,
-      testPassword
-    );
-  });
-
-  it('calls Firebase createUserWithEmailAndPassword during signup', async () => {
-    const testEmail = 'newuser@example.com';
-    const testPassword = 'newpassword123';
-
-    let auth: ReturnType<typeof useAuth>;
-    function TestComponent() {
-      auth = useAuth();
-      return <div>Test</div>;
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await act(async () => {
-      await auth.signup(testEmail, testPassword);
-    });
-
-    expect(mockCreateUserWithEmailAndPassword).toHaveBeenCalledWith(
-      expect.anything(),
-      testEmail,
-      testPassword
-    );
-  });
-
   it('calls Firebase signOut during logout', async () => {
     let auth: ReturnType<typeof useAuth>;
     function TestComponent() {
@@ -139,24 +78,6 @@ describe('AuthProvider', () => {
     });
 
     expect(mockSignOut).toHaveBeenCalledWith(expect.anything());
-  });
-
-  it('handles login errors properly', async () => {
-    mockSignInWithEmailAndPassword.mockRejectedValueOnce(new Error('Auth error'));
-
-    let auth!: ReturnType<typeof useAuth>;
-    function TestComponent() {
-      auth = useAuth();
-      return <div>Test</div>;
-    }
-
-    render(
-      <AuthProvider>
-        <TestComponent />
-      </AuthProvider>
-    );
-
-    await expect(auth.login('test@example.com', 'password')).rejects.toThrow('Auth error');
   });
 
   it('throws if useAuth is used outside AuthProvider', () => {

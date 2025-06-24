@@ -1,17 +1,17 @@
 const nextConfig: import('next').NextConfig = {
   // Enable Turbopack for development
   turbopack: {},
-  
+
   // Production optimizations
   compress: true,
   poweredByHeader: false,
-  
+
   // Image optimization
   images: {
     domains: ['firebasestorage.googleapis.com'],
     formats: ['image/webp', 'image/avif'],
   },
-  
+
   // Security headers
   async headers() {
     return [
@@ -34,12 +34,12 @@ const nextConfig: import('next').NextConfig = {
       },
     ];
   },
-  
+
   // Experimental features for better performance
   experimental: {
     optimizePackageImports: ['firebase'],
   },
-  
+
   // Bundle analyzer (conditional)
   ...(process.env.ANALYZE === 'true' && {
     // Uses @next/bundle-analyzer

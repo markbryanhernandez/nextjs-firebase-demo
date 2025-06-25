@@ -9,6 +9,7 @@ import TextInput from '@/components/ui/TextInput';
 import { useForm } from './useForm';
 import { isValidEmail, isValidPassword } from '@/utils/validation';
 import { debugLog, errorLog } from '@/utils/log';
+import GoogleSignInButton from './GoogleSignInButton';
 
 const LoginForm: React.FC = () => {
   const { login } = useAuth();
@@ -24,7 +25,9 @@ const LoginForm: React.FC = () => {
     validate: (values: { email: string; password: string }) => {
       const errors: { email?: string; password?: string } = {};
       if (!values.email) errors.email = 'Email is required';
+      else if (!isValidEmail(values.email)) errors.email = 'Invalid email address';
       if (!values.password) errors.password = 'Password is required';
+      else if (!isValidPassword(values.password)) errors.password = 'Password must be at least 6 characters';
       return errors;
     },
   });
@@ -32,14 +35,6 @@ const LoginForm: React.FC = () => {
 
   const onSubmit = async (values: { email: string; password: string }) => {
     setError('');
-    if (!isValidEmail(values.email)) {
-      setError('Invalid email address');
-      return;
-    }
-    if (!isValidPassword(values.password)) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
     try {
       debugLog('[LoginForm] Attempting login', { email: values.email });
       await login(values.email, values.password);
@@ -51,6 +46,8 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  const handleGoogleError = (err: Error) => setError('Google sign-in failed: ' + err.message);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -60,10 +57,9 @@ const LoginForm: React.FC = () => {
       <TextInput
         label="Email"
         name="email"
-        type="email"
+        type="text"
         value={email}
         onChange={handleChange}
-        required
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${BRAND.focusRing} transition`}
         error={errors.email}
         autoComplete="email"
@@ -74,7 +70,6 @@ const LoginForm: React.FC = () => {
         type="password"
         value={password}
         onChange={handleChange}
-        required
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${BRAND.focusRing} transition`}
         error={errors.password}
         autoComplete="current-password"
@@ -87,6 +82,12 @@ const LoginForm: React.FC = () => {
       >
         {isSubmitting && <Spinner size={20} />} {isSubmitting ? 'Logging in...' : 'Login'}
       </button>
+      <div className="flex items-center my-4">
+        <div className="flex-grow border-t border-gray-200" />
+        <span className="mx-3 text-gray-400 text-sm font-medium">or</span>
+        <div className="flex-grow border-t border-gray-200" />
+      </div>
+      <GoogleSignInButton onError={handleGoogleError} label="Sign in with Google" />
     </form>
   );
 };

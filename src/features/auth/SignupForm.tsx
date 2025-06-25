@@ -6,6 +6,7 @@ import Spinner from '@/components/ui/Spinner';
 import TextInput from '@/components/ui/TextInput';
 import { isValidEmail, isValidPassword } from '@/utils/validation';
 import { debugLog, errorLog } from '@/utils/log';
+import GoogleSignInButton from './GoogleSignInButton';
 
 const SignupForm: React.FC = () => {
   const { signup } = useAuth();
@@ -31,6 +32,8 @@ const SignupForm: React.FC = () => {
   });
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
+
+  const handleGoogleError = (err: Error) => setError('Google sign-up failed: ' + err.message);
 
   const onSubmit = async (values: { email: string; password: string; confirmPassword: string }) => {
     setError('');
@@ -63,10 +66,9 @@ const SignupForm: React.FC = () => {
       <TextInput
         label="Email"
         name="email"
-        type="email"
+        type="text"
         value={email}
         onChange={handleChange}
-        required
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${BRAND.focusRing} transition`}
         error={errors.email}
         autoComplete="email"
@@ -77,7 +79,6 @@ const SignupForm: React.FC = () => {
         type="password"
         value={password}
         onChange={handleChange}
-        required
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${BRAND.focusRing} transition`}
         error={errors.password}
         autoComplete="new-password"
@@ -88,7 +89,6 @@ const SignupForm: React.FC = () => {
         type="password"
         value={confirmPassword}
         onChange={handleChange}
-        required
         className={`w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 ${BRAND.focusRing} transition`}
         error={errors.confirmPassword}
         autoComplete="new-password"
@@ -102,6 +102,12 @@ const SignupForm: React.FC = () => {
       >
         {isSubmitting && <Spinner size={20} />} {isSubmitting ? 'Signing up...' : 'Sign Up'}
       </button>
+      <div className="flex items-center my-4">
+        <div className="flex-grow border-t border-gray-200" />
+        <span className="mx-3 text-gray-400 text-sm font-medium">or</span>
+        <div className="flex-grow border-t border-gray-200" />
+      </div>
+      <GoogleSignInButton onError={handleGoogleError} label="Sign up with Google" />
     </form>
   );
 };

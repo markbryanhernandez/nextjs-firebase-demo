@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import { useAuth } from '@/features/auth/AuthProvider';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 
-const LoadingPage = dynamic(() => import('./loading'), { ssr: false });
+const LoadingPage = dynamic(() => import('../loading'), { ssr: false });
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!user && !loading) {
-      router.replace('/auth');
+      router.replace('/login');
     }
   }, [user, loading, router]);
 
